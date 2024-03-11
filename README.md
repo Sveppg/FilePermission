@@ -4,4 +4,4 @@ A little Project of mine to change file permissions of existing files or creatin
 Written in C, build with CMake.
 
 
-!not finieshed!
+!not finished!
