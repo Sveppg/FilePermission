@@ -12,6 +12,7 @@
 //Custom function definiton
 void openFile_chPerm();
 void createFile_wPerm();
+void getMenu();
 
 int main(int argc, char *argv[])
 {
@@ -26,28 +27,14 @@ int main(int argc, char *argv[])
         printf("Too few Arguments!! Please Add a File...\n");
         exit(EXIT_FAILURE);
     }
-    
-    printf("_________________________________________________________\n");
-    printf("| 1. Change an existing File for different Permissions? |\n");
-    printf("| 2. Create a new File with new Permissions             |\n");
-    printf("|                                                       |\n");
-    printf("|                  1. or 2.?                            |\n");
-    printf("*********************************************************\n");
-
-    scanf("%i", &Menu);
+    getMenu(int Menu);
 
     /*
     *   This if Condition will run the openFile_chPerm Func 
-    *
     */
-
     if(Menu == 1){
         mode_t umask_arg;
         umask_arg = umask(002); // set umask to 002 for efficient permission passing
-        printf("Please type in the file you want to edit: \n");
-        printf("Format: name.type\n");
-        scanf("%100s", filename);
-        
         openFile_chPerm();
         
         umask(umask_arg);
@@ -56,7 +43,6 @@ int main(int argc, char *argv[])
     /*
     *   This else if Condition will run the createFile_wPerm Func 
     *    and set or reset the umask 
-    *
     */
     else if(Menu == 2){
         mode_t umask_arg; // same as above
@@ -68,16 +54,51 @@ int main(int argc, char *argv[])
     
     else{
         printf("Your UserInput is insufficent... Exit\n");
-        printf("please try again...\n");
+        printf("please run again...\n");
         exit(EXIT_FAILURE);
     }
     return 0;
 }
 
+
+
+
+
+void getMenu(int Menu){
+    
+    printf("_________________________________________________________\n");
+    printf("| 1. Change an existing File for different Permissions? |\n");
+    printf("| 2. Create a new File with new Permissions             |\n");
+    printf("|                                                       |\n");
+    printf("|                  1. or 2.?                            |\n");
+    printf("*********************************************************\n");
+    printf("\n");
+    
+    printf("Select file permissions to set (bitwise OR will be used):\n");
+    
+    printf("1. Read by owner (S_IRUSR)\n");
+    printf("2. Write by owner (S_IWUSR)\n");
+    printf("3. Execute by owner (S_IXUSR)\n");
+    printf("123. All of them: (RWX)\n");
+    printf("\n");
+    printf("4. Read by group (S_IRGRP)\n");
+    printf("5. Write by group (S_IWGRP)\n");
+    printf("6. Execute by group (S_IXGRP)\n");
+    printf("456. All of them: (RWX)\n");
+    printf("\n");
+    printf("7. Read by Other (S_IROTH)\n");
+    printf("8. Write by Other (S_IWOTH)\n");
+    printf("9. Execute by Other (S_IXOTH)\n");
+    printf("789. All of them: (RWX)\n");
+
+    printf("Enter choice (0 to end the program): \n");
+    scanf("%i", &Menu);
+
+}
 void openFile_chPerm(const char *filename, int mode){
     int flags = O_RDWR | O_DIRECTORY | O_SYNC;
     int fd = open(argv[1], O_CREAT | O_RDWR);
-    
+
 }
 
 void createFile_wPerm(char givenfilename[100], int flags, int mode){
