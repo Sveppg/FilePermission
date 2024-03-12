@@ -10,14 +10,13 @@
 
 
 //Custom function definiton
-void openFile_chPerm(mode_t mode, char *filename);
-void createFile_wPerm(mode_t mode , char *filename);
+mode_t collectPermissions();
 void getMenu();
 
 int main(int argc, char *argv[])
 {
     int Menu;
-    mode_t mode = 0;
+    mode_t mode;
     
     CLEAR;
     HOME;
@@ -43,11 +42,14 @@ int main(int argc, char *argv[])
     if(Menu == 1){
         mode_t umask_arg;
         umask_arg = umask(002); // set umask to 002 for efficient permission passing
-        openFile_chPerm(mode, argv[1]);
-        
+        mode = collectPermissions();
+        if(chmod(argv[1], mode) == -1)
+        {
+            perror("chmod failed");
+            exit(EXIT_FAILURE);
+        }
         umask(umask_arg);
     }
-    
     /*
     *   This else if Condition will run the createFile_wPerm Func 
     *    and set or reset the umask 
@@ -55,8 +57,13 @@ int main(int argc, char *argv[])
     else if(Menu == 2){
         mode_t umask_arg; // same as above
         umask_arg = umask(002);
-        createFile_wPerm(mode, argv[1]);
-
+        mode = collectPermissions();
+        int fd = open(argv[1], O_CREAT | O_WRONLY, mode);
+        if(fd == -1){
+            perror("Failed to create File");
+            exit(EXIT_FAILURE);
+        }
+        close(fd);
         umask(umask_arg);
     }
     
@@ -89,8 +96,9 @@ void getMenu(){
     printf("Enter choice (0 to end the program): \n");
 }
 
-void openFile_chPerm(mode_t mode, char *filename){
+mode_t collectPermissions(void){
     int choice;
+    mode_t mode = 0;
     getMenu();
     while(scanf("%d", &choice) && choice != 0)
     {
@@ -109,38 +117,10 @@ void openFile_chPerm(mode_t mode, char *filename){
             case 789: mode |= S_IRWXO; break;
             default: printf("Invalid Choice. Please try again\n"); break;
         }
-        if(choice != 0) CLEAR; getMenu();
-    }
-    chmod(filename, mode)
+        if(choice != 0) 
+        CLEAR; 
+        getMenu();
+    }    
+    return mode;
 }
 
-void createFile_wPerm(mode_t mode, char *filename){
-    int choice;
-    getMenu();
-    while(scanf("%d", &choice) && choice != 0)
-    {
-        switch(choice){
-            case 1: mode |= S_IRUSR; break;
-            case 2: mode |= S_IWUSR; break;
-            case 3: mode |= S_IXUSR; break;
-            case 123: mode |= S_IRWXU; break;
-            case 4: mode |= S_IRGRP; break;
-            case 5: mode |= S_IWGRP; break;
-            case 6: mode |= S_IXGRP; break;
-            case 456: mode |= S_IRWXG; break;
-            case 7: mode |= S_IROTH; break;
-            case 8: mode |= S_IWOTH; break;
-            case 9: mode |= S_IXOTH; break;
-            case 789: mode |= S_IRWXO; break;
-            default: printf("Invalid Choice. Please try again\n"); break;
-        }
-        if(choice != 0) CLEAR; getMenu();
-    }
-    int fd = open(filename, O_CREAT | O_WRONLY, mode);
-    
-    
-    if(fd == -1){
-        perror("Failed to create File\n");
-        exit(EXIT_FAILURE);
-    }
-}
