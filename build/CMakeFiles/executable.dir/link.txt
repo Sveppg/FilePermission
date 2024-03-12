@@ -1,1 +1,1 @@
-/usr/bin/cc  -pthread -Wall -lm -Werror -g -O3 -rdynamic CMakeFiles/executable.dir/SOURCE_FILES/ChangePermfF.c.o -o executable 
+/usr/bin/cc  -pthread -Wall -Werror -lm -Werror -g -O3 -rdynamic CMakeFiles/executable.dir/SOURCE_FILES/ChangePermfF.c.o -o executable 

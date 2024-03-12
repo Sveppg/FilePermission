@@ -6,5 +6,5 @@ C_DEFINES =
 
 C_INCLUDES = -I"/home/tw1/Code/Qt Projects/HEADER_FILES"
 
-C_FLAGS =  -pthread -Wall -lm -Werror -g -O3 -std=gnu99
+C_FLAGS =  -pthread -Wall -Werror -lm -Werror -g -O3 -std=gnu99
 
