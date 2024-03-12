@@ -22,18 +22,19 @@ int main(int argc, char *argv[])
     CLEAR;
     HOME;
 
-    if(argc != 2){
+    if(argc != 2){ //Check for argument count
         printf("Too few Arguments!! Please Add a File...\n");
         exit(EXIT_FAILURE);
     }
     
+    printf("_________________________________________________________\n");
     printf("| 1. Change an existing File for different Permissions? |\n");
     printf("| 2. Create a new File with new Permissions             |\n");
     printf("|                                                       |\n");
     printf("|                  1. or 2.?                            |\n");
-    scanf("%i", &Menu);
-    
+    printf("*********************************************************\n");
 
+    scanf("%i", &Menu);
 
     /*
     *   This if Condition will run the openFile_chPerm Func 
@@ -75,15 +76,13 @@ int main(int argc, char *argv[])
 
 void openFile_chPerm(const char *filename, int mode){
     int flags = O_RDWR | O_DIRECTORY | O_SYNC;
+    int fd = open(argv[1], O_CREAT | O_RDWR);
     
-    int fd = open(filename, flags, mode);
-
 }
 
 void createFile_wPerm(char givenfilename[100], int flags, int mode){
-    char *PTRgivenfilename = &givenfilename;
     printf("File name? (max. 20 Char):\n");
-    scanf("%s", &PTRgivenfilename);
-
+    scanf("%s", &givenfilename);
+    
 }
  
