@@ -63,6 +63,7 @@ int main(int argc, char *argv[])
         int fd = open(argv[1], O_CREAT | O_WRONLY, mode);
         if(fd == -1){
             perror("Failed to create File");
+            
             exit(EXIT_FAILURE);
         }
         close(fd);
