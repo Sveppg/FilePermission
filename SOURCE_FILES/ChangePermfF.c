@@ -10,21 +10,21 @@
 
 
 //Custom function definiton
-void openFile_chPerm();
-void createFile_wPerm();
+void openFile_chPerm(mode_t mode, char *filename);
+void createFile_wPerm(mode_t mode , char *filename);
 void getMenu();
 
 int main(int argc, char *argv[])
 {
-    int Menu; 
-    char filename[101];
-    char (*PTRfilename)[101] = &filename;
+    int Menu;
+    mode_t mode = 0;
     
     CLEAR;
     HOME;
 
     if(argc != 2){ //Check for argument count
         printf("Too few Arguments!! Please Add a File...\n");
+        printf("The one you want to edit or the name of the new File -> with formate ending: exp. Foo.txt\n");
         exit(EXIT_FAILURE);
     }
 
@@ -42,10 +42,8 @@ int main(int argc, char *argv[])
    
     if(Menu == 1){
         mode_t umask_arg;
-        mode_t mode = 0; //Start with no permissions
         umask_arg = umask(002); // set umask to 002 for efficient permission passing
-        getMenu();
-        openFile_chPerm();
+        openFile_chPerm(mode, argv[1]);
         
         umask(umask_arg);
     }
@@ -56,10 +54,8 @@ int main(int argc, char *argv[])
     */
     else if(Menu == 2){
         mode_t umask_arg; // same as above
-        mode_t mode = 0; // Start with no permissions
         umask_arg = umask(002);
-        getMenu();
-        createFile_wPerm();
+        createFile_wPerm(mode, argv[1]);
 
         umask(umask_arg);
     }
@@ -72,40 +68,79 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-
-
-
-
 void getMenu(){
     printf("Select file permissions to set (bitwise OR will be used):\n");
     printf("________________________________________________________\n");
-    printf("1. Read by owner (S_IRUSR)\n");
-    printf("2. Write by owner (S_IWUSR)\n");
-    printf("3. Execute by owner (S_IXUSR)\n");
+    printf("  1. Read by owner (S_IRUSR)\n");
+    printf("  2. Write by owner (S_IWUSR)\n");
+    printf("  3. Execute by owner (S_IXUSR)\n");
     printf("123. All of them: (RWX)\n");
     printf("\n");
-    printf("4. Read by group (S_IRGRP)\n");
-    printf("5. Write by group (S_IWGRP)\n");
-    printf("6. Execute by group (S_IXGRP)\n");
+    printf("  4. Read by group (S_IRGRP)\n");
+    printf("  5. Write by group (S_IWGRP)\n");
+    printf("  6. Execute by group (S_IXGRP)\n");
     printf("456. All of them: (RWX)\n");
     printf("\n");
-    printf("7. Read by Other (S_IROTH)\n");
-    printf("\n");
-    printf("8. Write by Other (S_IWOTH)\n");
-    printf("9. Execute by Other (S_IXOTH)\n");
+    printf("  7. Read by Other (S_IROTH)\n");
+    printf("  8. Write by Other (S_IWOTH)\n");
+    printf("  9. Execute by Other (S_IXOTH)\n");
     printf("789. All of them: (RWX)\n");
-
+    printf("\n");
     printf("Enter choice (0 to end the program): \n");
 }
-void openFile_chPerm(const char *filename, int mode){
-    int flags = O_RDWR | O_DIRECTORY | O_SYNC;
-    int fd = open(argv[1], O_CREAT | O_RDWR);
 
+void openFile_chPerm(mode_t mode, char *filename){
+    int choice;
+    getMenu();
+    while(scanf("%d", &choice) && choice != 0)
+    {
+        switch(choice){
+            case 1: mode |= S_IRUSR; break;
+            case 2: mode |= S_IWUSR; break;
+            case 3: mode |= S_IXUSR; break;
+            case 123: mode |= S_IRWXU; break;
+            case 4: mode |= S_IRGRP; break;
+            case 5: mode |= S_IWGRP; break;
+            case 6: mode |= S_IXGRP; break;
+            case 456: mode |= S_IRWXG; break;
+            case 7: mode |= S_IROTH; break;
+            case 8: mode |= S_IWOTH; break;
+            case 9: mode |= S_IXOTH; break;
+            case 789: mode |= S_IRWXO; break;
+            default: printf("Invalid Choice. Please try again\n"); break;
+        }
+        if(choice != 0) CLEAR; getMenu();
+    }
+    chmod(filename, mode)
 }
 
-void createFile_wPerm(char givenfilename[100], int flags, int mode){
-    printf("File name? (max. 20 Char):\n");
-    scanf("%s", &givenfilename);
+void createFile_wPerm(mode_t mode, char *filename){
+    int choice;
+    getMenu();
+    while(scanf("%d", &choice) && choice != 0)
+    {
+        switch(choice){
+            case 1: mode |= S_IRUSR; break;
+            case 2: mode |= S_IWUSR; break;
+            case 3: mode |= S_IXUSR; break;
+            case 123: mode |= S_IRWXU; break;
+            case 4: mode |= S_IRGRP; break;
+            case 5: mode |= S_IWGRP; break;
+            case 6: mode |= S_IXGRP; break;
+            case 456: mode |= S_IRWXG; break;
+            case 7: mode |= S_IROTH; break;
+            case 8: mode |= S_IWOTH; break;
+            case 9: mode |= S_IXOTH; break;
+            case 789: mode |= S_IRWXO; break;
+            default: printf("Invalid Choice. Please try again\n"); break;
+        }
+        if(choice != 0) CLEAR; getMenu();
+    }
+    int fd = open(filename, O_CREAT | O_WRONLY, mode);
     
+    
+    if(fd == -1){
+        perror("Failed to create File\n");
+        exit(EXIT_FAILURE);
+    }
 }
- 
