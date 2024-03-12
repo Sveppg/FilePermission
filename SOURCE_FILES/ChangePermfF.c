@@ -13,7 +13,7 @@
 void openFile_chPerm();
 void createFile_wPerm();
 
-int main(int args, char *argv[])
+int main(int argc, char *argv[])
 {
     int Menu; 
     char filename[101];
@@ -22,12 +22,24 @@ int main(int args, char *argv[])
     CLEAR;
     HOME;
 
+    if(argc != 2){
+        printf("Too few Arguments!! Please Add a File...\n");
+        exit(EXIT_FAILURE);
+    }
+    
     printf("| 1. Change an existing File for different Permissions? |\n");
     printf("| 2. Create a new File with new Permissions             |\n");
     printf("|                                                       |\n");
     printf("|                  1. or 2.?                            |\n");
     scanf("%i", &Menu);
     
+
+
+    /*
+    *   This if Condition will run the openFile_chPerm Func 
+    *
+    */
+
     if(Menu == 1){
         mode_t umask_arg;
         umask_arg = umask(002); // set umask to 002 for efficient permission passing
@@ -40,6 +52,11 @@ int main(int args, char *argv[])
         umask(umask_arg);
     }
     
+    /*
+    *   This else if Condition will run the createFile_wPerm Func 
+    *    and set or reset the umask 
+    *
+    */
     else if(Menu == 2){
         mode_t umask_arg; // same as above
         umask_arg = umask(002);
