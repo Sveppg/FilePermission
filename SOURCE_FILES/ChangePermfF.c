@@ -43,10 +43,12 @@ int main(int argc, char *argv[])
         mode_t umask_arg;
         umask_arg = umask(002); // set umask to 002 for efficient permission passing
         mode = collectPermissions();
-        if(chmod(argv[1], mode) == -1)
-        {
-            perror("chmod failed");
+        if(chmod(argv[1], mode)){
+            perror(argv[1]);
             exit(EXIT_FAILURE);
+        }
+        else{
+            printf("%s: permissions are changed to %o\n", argv[1], mode);
         }
         umask(umask_arg);
     }
