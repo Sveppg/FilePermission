@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
     /*
     *   This if Condition will run the openFile_chPerm Func 
     */
-    printf("Your Choice?"); scanf("%i", &Menu);
+    printf("Your Choice?:  "); scanf("%i", &Menu);
    
    
     if(Menu == 1){
