@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
             exit(EXIT_FAILURE);
         }
         else{
-            printf("%s: permissions are changed to %o\n", argv[1], mode);
+            printf("%s permissions are changed to %o\n", argv[1], mode);
         }
         umask(umask_arg);
     }
@@ -81,6 +81,7 @@ int main(int argc, char *argv[])
 }
 
 void getMenu(){
+    FORECOLOR_VIOLETT;
     printf("Select file permissions to set (bitwise OR will be used):\n");
     printf("________________________________________________________\n");
     printf("  1. Read by owner (S_IRUSR)\n");
@@ -98,7 +99,9 @@ void getMenu(){
     printf("  9. Execute by Other (S_IXOTH)\n");
     printf("789. All of them: (RWX)\n");
     printf("\n");
+    FORECOLOR_YELLOW;
     printf("Enter choice (0 to end the program): \n");
+    FORECOLOR_WHITE;
 }
 
 mode_t collectPermissions(void){
@@ -122,10 +125,10 @@ mode_t collectPermissions(void){
             case 789: mode |= S_IRWXO; break;
             default: printf("Invalid Choice. Please try again\n"); break;
         }
-        if(choice != 0) 
-        HOME;
-        CLEAR;
-        getMenu();
+        if(choice != 0){
+            printf("Settings changed...\n");
+            getMenu();
+        }
     }    
     return mode;
 }
