@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
     printf("| 2. Create a new File with new Permissions             |\n");
     printf("|                                                       |\n");
     printf("|                  1. or 2.?                            |\n");
-    printf("*********************************************************\n");
+    printf("|_______________________________________________________|\n");
     /*
     *   This if Condition will run the openFile_chPerm Func 
     */
@@ -82,23 +82,24 @@ int main(int argc, char *argv[])
 
 void getMenu(){
     FORECOLOR_VIOLETT;
-    printf("Select file permissions to set (bitwise OR will be used):\n");
-    printf("________________________________________________________\n");
-    printf("  1. Read by owner (S_IRUSR)\n");
-    printf("  2. Write by owner (S_IWUSR)\n");
-    printf("  3. Execute by owner (S_IXUSR)\n");
-    printf("123. All of them: (RWX)\n");
-    printf("\n");
-    printf("  4. Read by group (S_IRGRP)\n");
-    printf("  5. Write by group (S_IWGRP)\n");
-    printf("  6. Execute by group (S_IXGRP)\n");
-    printf("456. All of them: (RWX)\n");
-    printf("\n");
-    printf("  7. Read by Other (S_IROTH)\n");
-    printf("  8. Write by Other (S_IWOTH)\n");
-    printf("  9. Execute by Other (S_IXOTH)\n");
-    printf("789. All of them: (RWX)\n");
-    printf("\n");
+    printf("_________________________________________________________\n");
+    printf("|Select file permissions to set (bitwise OR will be used)|:\n");
+    printf("|________________________________________________________|\n");
+    printf("| 1. Read by owner (S_IRUSR)                             |\n");
+    printf("| 2. Write by owner (S_IWUSR)                            |\n");
+    printf("| 3. Execute by owner (S_IXUSR)                          |\n");
+    printf("| 123. All of them: (RWX)                                |\n");
+    printf("|                                                        |\n");
+    printf("| 4. Read by group (S_IRGRP)                             |\n");
+    printf("| 5. Write by group (S_IWGRP)                            |\n");
+    printf("| 6. Execute by group (S_IXGRP)                          |\n");
+    printf("| 456. All of them: (RWX)                                |\n");
+    printf("|                                                        |\n");
+    printf("| 7. Read by Other (S_IROTH)                             |\n");
+    printf("| 8. Write by Other (S_IWOTH)                            |\n");
+    printf("| 9. Execute by Other (S_IXOTH)                          |\n");
+    printf("| 789. All of them: (RWX)                                |\n");
+    printf("|________________________________________________________|\n");
     FORECOLOR_YELLOW;
     printf("Enter choice (0 to end the program): \n");
     FORECOLOR_WHITE;
@@ -123,11 +124,14 @@ mode_t collectPermissions(void){
             case 8: mode |= S_IWOTH; break;
             case 9: mode |= S_IXOTH; break;
             case 789: mode |= S_IRWXO; break;
-            default: printf("Invalid Choice. Please try again\n"); break;
+            default: printf("Invalid Choice. Please try again...\n"); break;
         }
-        if(choice != 0){
-            printf("Settings changed...\n");
-            getMenu();
+        if(choice != 0){ 
+            HOME;
+            CLEAR; 
+            printf("Changes applied...\n");
+                getMenu();
+           
         }
     }    
     return mode;
