@@ -63,8 +63,10 @@ int main(int argc, char *argv[])
         int fd = open(argv[1], O_CREAT | O_WRONLY, mode);
         if(fd == -1){
             perror("Failed to create File");
-            
             exit(EXIT_FAILURE);
+        }
+        else{
+            printf("%s: File created with permissions %o\n", argv[1], mode);
         }
         close(fd);
         umask(umask_arg);
@@ -121,7 +123,8 @@ mode_t collectPermissions(void){
             default: printf("Invalid Choice. Please try again\n"); break;
         }
         if(choice != 0) 
-        CLEAR; 
+        HOME;
+        CLEAR;
         getMenu();
     }    
     return mode;
