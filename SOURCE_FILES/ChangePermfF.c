@@ -32,6 +32,7 @@ int main(int argc, char *argv[])
     printf("| 2. Create a new File with new Permissions             |\n");
     printf("|                                                       |\n");
     printf("|                  1. or 2.?                            |\n");
+    printf("|                                                       |\n");
     printf("|_______________________________________________________|\n");
     /*
     *   This if Condition will run the openFile_chPerm Func 
@@ -129,8 +130,8 @@ mode_t collectPermissions(void){
         if(choice != 0){ 
             HOME;
             CLEAR; 
-            printf("Changes applied...\n");
-                getMenu();
+                printf("Changes applied...\n");
+                printf("Type 0 to end the programm\n");
            
         }
     }    
