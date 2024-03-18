@@ -13,7 +13,7 @@
 mode_t collectPermissions();
 void getMenu();
 
-int main(int argc, char *argv[])
+int main(int argc, char *argv[100])
 {
     int Menu;
     mode_t mode;
@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
             exit(EXIT_FAILURE);
         }
         else{
-            printf("%s permissions are changed to %o\n", argv[1], mode);
+            printf("%.100s permissions are changed to %o\n", argv[1], mode);
         }
         umask(umask_arg);
     }
@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
             exit(EXIT_FAILURE);
         }
         else{
-            printf("%s: File created with permissions %o\n", argv[1], mode);
+            printf("%.100s: File created with permissions %o\n", argv[1], mode);
         }
         close(fd);
         umask(umask_arg);
