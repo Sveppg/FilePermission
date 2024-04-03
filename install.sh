@@ -1,9 +1,10 @@
 #!/bin/sh
 
-cd build
+cd /FilePermissions-git/build
 
 echo "creating alias..."
-alias ./executable='ChangePerm'
+alias ChangePerm="./executable"
 chmod +x executable
-echo "Add a file to the program parameter"
+echo "Your command will be ChangePerm"
+echo "Add a File as a Programm parameter"
 
