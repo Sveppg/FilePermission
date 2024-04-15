@@ -1,11 +1,5 @@
 #!/bin/sh
+gcc -o FilePermi SOURCE_FILES/ChangerPermfF.c HEADER_FILES/escapesequenzen.h
 
-cd /FilePermissions-git/build
-make
+./FilePermi
 
-echo "creating alias..."
-alias ChangePerm="./executable"
-chmod +x executable
-echo "Your command will be ChangePerm"
-echo "Add a File as a Programm parameter"
-ChangePerm
