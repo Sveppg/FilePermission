@@ -1,6 +1,4 @@
 #!/bin/sh
-echo "fetching the git repo..."
-git clone https://github.com/Sveppg/FilePermisson.git
 
 cd /FilePermissions-git/build
 make
