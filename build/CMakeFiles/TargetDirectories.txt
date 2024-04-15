@@ -1,3 +1,0 @@
-/home/tw1/Code/Qt Projects/build/CMakeFiles/executable.dir
-/home/tw1/Code/Qt Projects/build/CMakeFiles/edit_cache.dir
-/home/tw1/Code/Qt Projects/build/CMakeFiles/rebuild_cache.dir
