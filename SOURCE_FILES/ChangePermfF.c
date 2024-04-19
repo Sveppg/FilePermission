@@ -7,8 +7,6 @@
 
 //Costum Header Files loc. /HEADER_FILES
 #include "escapesequenzen.h"
-
-
 //Custom function definiton
 mode_t collectPermissions();
 void getMenu();
@@ -17,67 +15,65 @@ int main(int argc, char *argv[100])
 {
     int Menu;
     mode_t mode;
-    
     CLEAR;
     HOME;
-
-    if(argc != 2){ //Check for argument count
-        printf("Too few Arguments!! Please Add a File...\n");
-        printf("The one you want to edit or the name of the new File -> with formate ending: exp. Foo.txt\n");
-        exit(EXIT_FAILURE);
-    }
-
-    printf("_________________________________________________________\n");
-    printf("| 1. Change an existing File for different Permissions? |\n");
-    printf("| 2. Create a new File with new Permissions             |\n");
-    printf("|                                                       |\n");
-    printf("|                  1. or 2.?                            |\n");
-    printf("|                                                       |\n");
-    printf("|_______________________________________________________|\n");
-    /*
-    *   This if Condition will run the openFile_chPerm Func 
-    */
-    printf("Your Choice?:  "); scanf("%i", &Menu);
-   
-   
-    if(Menu == 1){
-        mode_t umask_arg;
-        umask_arg = umask(002); // set umask to 002 for efficient permission passing
-        mode = collectPermissions();
-        if(chmod(argv[1], mode)){
-            perror(argv[1]);
+        if(argc != 2){ //Check for argument count
+            printf("Too few Arguments!! Please Add a File...\n");
+            printf("The one you want to edit or the name of the new File -> with formate ending: exp. Foo.txt\n");
             exit(EXIT_FAILURE);
         }
-        else{
-            printf("%.100s permissions are changed to %o\n", argv[1], mode);
-        }
-        umask(umask_arg);
-    }
-    /*
-    *   This else if Condition will run the createFile_wPerm Func 
-    *    and set or reset the umask 
-    */
-    else if(Menu == 2){
-        mode_t umask_arg; // same as above
-        umask_arg = umask(002);
-        mode = collectPermissions();
-        int fd = open(argv[1], O_CREAT | O_WRONLY, mode);
-        if(fd == -1){
-            perror("Failed to create File");
-            exit(EXIT_FAILURE);
-        }
-        else{
-            printf("%.100s: File created with permissions %o\n", argv[1], mode);
-        }
-        close(fd);
-        umask(umask_arg);
-    }
+
+        printf("_________________________________________________________\n");
+        printf("| 1. Change an existing File for different Permissions? |\n");
+        printf("| 2. Create a new File with new Permissions             |\n");
+        printf("|                                                       |\n");
+        printf("|                  1. or 2.?                            |\n");
+        printf("|                                                       |\n");
+        printf("|_______________________________________________________|\n");
+        
+        /*
+        *   This if Condition will run the openFile_chPerm Func 
+        */
+        
+        printf("Your Choice?:"); scanf("%i", &Menu);
     
-    else{
-        printf("Your UserInput is insufficent... Exit\n");
-        printf("please run again...\n");
-        exit(EXIT_FAILURE);
-    }
+        if(Menu == 1){
+        mode_t umask_arg;
+        umask_arg = umask(002); // set umask to 002 for efficient permission passing    
+        mode = collectPermissions();
+            if(chmod(argv[1], mode)){
+                perror(argv[1]);
+                exit(EXIT_FAILURE);
+            }
+            else{
+                printf("%.100s permissions are changed to %o\n", argv[1], mode);
+            }
+            umask(umask_arg);
+        }
+        /*
+        *   This else if Condition will run the createFile_wPerm Func 
+        *    and set or reset the umask 
+        */
+        else if(Menu == 2){
+            mode_t umask_arg; // same as above
+            umask_arg = umask(002);
+            mode = collectPermissions();
+            int fd = open(argv[1], O_CREAT | O_WRONLY, mode);
+            if(fd == -1){
+                perror("Failed to create File");
+                exit(EXIT_FAILURE);
+            }
+            else{
+		printf("\n");
+                printf("%.100s: File created with permissions %o\n", argv[1], mode);
+            }
+            close(fd);
+            umask(umask_arg);
+        }
+        else{
+            printf("Your UserInput is insufficent... Exit\n");
+	    exit(EXIT_FAILURE); 
+        }
     return 0;
 }
 
@@ -131,10 +127,11 @@ mode_t collectPermissions(void){
             HOME;
             CLEAR; 
                 printf("Changes applied...\n");
+		printf("\n");
                 printf("Type 0 to end the programm\n");
-           
         }
     }    
     return mode;
 }
+
 
