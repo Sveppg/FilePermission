@@ -11,8 +11,7 @@
 mode_t collectPermissions();
 void getMenu();
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv){
     int Menu;
     mode_t mode;
     CLEAR;
